@@ -227,7 +227,7 @@ const commands = {
     type: 'inline', 
     className: 'TMEm', 
     set: {pre: '__', post: '__'}, 
-    unset: {prePattern: /(?:\*|_)$/, postPattern: /^(?:\*|_)/}
+    unset: {prePattern: /__$/, postPattern: /^__/}
   },
   code: {
     type: 'inline', 
