@@ -226,7 +226,7 @@ const commands = {
   italic: {
     type: 'inline', 
     className: 'TMEm', 
-    set: {pre: '*', post: '*'}, 
+    set: {pre: '__', post: '__'}, 
     unset: {prePattern: /(?:\*|_)$/, postPattern: /^(?:\*|_)/}
   },
   code: {
