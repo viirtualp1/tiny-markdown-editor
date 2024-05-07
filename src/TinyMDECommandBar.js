@@ -104,7 +104,7 @@ class CommandBar {
       element = document.getElementById(props.element);
     }
     if (!element) {
-      element = document.body; 
+      element = document.body;
     }
     this.createCommandBarElement(element, props.commands || ['bold', 'italic', 'strikethrough', '|', 'code', '|', 'h1', 'h2', '|', 'ul', 'ol', '|', 'blockquote', 'hr', '|', 'insertLink', 'insertImage']);
     document.addEventListener('keydown', (e) => this.handleKeydown(e));
@@ -129,17 +129,17 @@ class CommandBar {
             commandName = command;
             this.commands[commandName] = DefaultCommands[commandName];
 
-            
+
           } else {
             continue;
           }
-          
+
         } else if (typeof command == "object" && command.name) {
           commandName = command.name;
-          this.commands[commandName] = {}; 
+          this.commands[commandName] = {};
           if (DefaultCommands[commandName]) Object.assign(this.commands[commandName], DefaultCommands[commandName]);
           Object.assign(this.commands[commandName], command);
-        
+
 
         } else {
           continue;
@@ -163,11 +163,11 @@ class CommandBar {
               case 'Shift':  modifiers.push('shiftKey'); modifierexplanation.push('⇧'); break;
 
               case 'Mod': // Mod is a convenience mechanism: Ctrl on Windows, Cmd on Mac
-                if (isMacLike) {modifiers.push('metaKey'); modifierexplanation.push('⌘');} 
-                else {modifiers.push('ctrlKey'); modifierexplanation.push('Ctrl');} 
-                break; 
-              case 'Mod2': 
-                modifiers.push('altKey'); 
+                if (isMacLike) {modifiers.push('metaKey'); modifierexplanation.push('⌘');}
+                else {modifiers.push('ctrlKey'); modifierexplanation.push('Ctrl');}
+                break;
+              case 'Mod2':
+                modifiers.push('altKey');
                 if (isMacLike) modifierexplanation.push('⌥');
                 else modifierexplanation.push('Alt');
                 break; // Mod2 is a convenience mechanism: Alt on Windows, Option on Mac
@@ -175,7 +175,7 @@ class CommandBar {
           }
           modifierexplanation.push(keys[keys.length - 1]);
           let hotkey = {
-            
+
             modifiers: modifiers,
             command: commandName,
           };
@@ -206,7 +206,7 @@ class CommandBar {
     event.preventDefault();
     if (typeof this.commands[commandName].action == "string") {
       if (this.state[commandName] === false) this.editor.setCommandState(commandName, true);
-      else this.editor.setCommandState(commandName, false);  
+      else this.editor.setCommandState(commandName, false);
     } else if (typeof this.commands[commandName].action == "function") {
       this.commands[commandName].action(this.editor);
     }

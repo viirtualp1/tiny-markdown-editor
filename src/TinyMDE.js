@@ -2,7 +2,7 @@ import { inlineGrammar, lineGrammar, punctuationLeading, punctuationTrailing, ht
 
 class Editor {
 
-  constructor(props = {}) {    
+  constructor(props = {}) {
     this.e = null;
     this.textarea = null;
     this.lines = [];
@@ -31,11 +31,11 @@ class Editor {
       element = document.getElementById(props.element);
     }
     if (!element) {
-      element = document.getElementsByTagName('body')[0]; 
+      element = document.getElementsByTagName('body')[0];
     }
     if (element.tagName == 'TEXTAREA') {
       this.textarea = element;
-      element = this.textarea.parentNode; 
+      element = this.textarea.parentNode;
     }
 
     if (this.textarea) {
@@ -57,7 +57,7 @@ class Editor {
     this.e.contentEditable = true;
     // The following is important for formatting purposes, but also since otherwise the browser replaces subsequent spaces with  &nbsp; &nbsp;
     // That breaks a lot of stuff, so we do this here and not in CSS—therefore, you don't have to remember to but this in the CSS file
-    this.e.style.whiteSpace = 'pre-wrap'; 
+    this.e.style.whiteSpace = 'pre-wrap';
     // Avoid formatting (B / I / U) popping up on iOS
     this.e.style.webkitUserModify = 'read-write-plaintext-only';
     if (this.textarea && this.textarea.parentNode == element && this.textarea.nextSibling) {
@@ -131,10 +131,10 @@ class Editor {
 
   /**
    * Helper function to replace placeholders from a RegExp capture. The replacement string can contain regular dollar placeholders (e.g., $1),
-   * which are interpreted like in String.replace(), but also double dollar placeholders ($$1). In the case of double dollar placeholders, 
+   * which are interpreted like in String.replace(), but also double dollar placeholders ($$1). In the case of double dollar placeholders,
    * Markdown inline grammar is applied on the content of the captured subgroup, i.e., $$1 processes inline Markdown grammar in the content of the
    * first captured subgroup, and replaces `$$1` with the result.
-   * 
+   *
    * @param {string} replacement The replacement string, including placeholders.
    * @param  capture The result of a RegExp.exec() call
    * @returns The replacement string, with placeholders replaced from the capture result.
@@ -148,7 +148,7 @@ class Editor {
   }
 
   /**
-   * Applies the line types (from this.lineTypes as well as the capture result in this.lineReplacements and this.lineCaptures) 
+   * Applies the line types (from this.lineTypes as well as the capture result in this.lineReplacements and this.lineCaptures)
    * and processes inline formatting for all lines.
    */
   applyLineTypes() {
@@ -161,7 +161,7 @@ class Editor {
         this.lineElements[lineNum].innerHTML = (contentHTML == '' ? '<br />' : contentHTML); // Prevent empty elements which can't be selected etc.
       }
       this.lineElements[lineNum].dataset.lineNum = lineNum;
-    }    
+    }
   }
 
   /**
@@ -193,7 +193,7 @@ class Editor {
           lineType = 'TMFencedCodeBacktick';
           lineReplacement = '$0';
           lineCapture = [this.lines[lineNum]];
-        } 
+        }
       }
       // if (lineNum > 0 && (this.lineTypes[lineNum - 1] == 'TMCodeFenceTildeOpen' || this.lineTypes[lineNum - 1] == 'TMFencedCodeTilde')) {
       else if (codeBlockType == 'TMCodeFenceTildeOpen') {
@@ -209,7 +209,7 @@ class Editor {
           lineType = 'TMFencedCodeTilde';
           lineReplacement = '$0';
           lineCapture = [this.lines[lineNum]];
-        } 
+        }
       }
 
       // Check HTML block types
@@ -267,8 +267,8 @@ class Editor {
 
       // Link reference definition and indented code can't interrupt a paragraph
       if (
-        (lineType == 'TMIndentedCode' || lineType == 'TMLinkReferenceDefinition') 
-        && lineNum > 0 
+        (lineType == 'TMIndentedCode' || lineType == 'TMLinkReferenceDefinition')
+        && lineNum > 0
         && (this.lineTypes[lineNum-1] == 'TMPara' || this.lineTypes[lineNum-1] == 'TMUL' || this.lineTypes[lineNum-1] == 'TMOL' || this.lineTypes[lineNum-1] == 'TMBlockquote')
       ) {
         // Fall back to TMPara
@@ -284,7 +284,7 @@ class Editor {
           lineType = 'TMUL';
           lineReplacement = lineGrammar.TMUL.replacement;
           lineCapture = capture;
-        }      
+        }
       }
 
       // Setext headings are only valid if preceded by a paragraph (and if so, they change the type of the previous paragraph)
@@ -309,14 +309,14 @@ class Editor {
           const headingLineType = (lineType == 'TMSetextH1Marker' ? 'TMSetextH1' : 'TMSetextH2');
           do {
             if (this.lineTypes[headingLineType] != headingLineType) {
-              this.lineTypes[headingLine] = headingLineType; 
+              this.lineTypes[headingLine] = headingLineType;
               this.lineDirty[headingLineType] = true;
             }
             this.lineReplacements[headingLine] = '$$0';
             this.lineCaptures[headingLine] = [this.lines[headingLine]];
 
             headingLine--;
-          } while(headingLine >= 0 && this.lineTypes[headingLine] == 'TMPara'); 
+          } while(headingLine >= 0 && this.lineTypes[headingLine] == 'TMPara');
         }
       }
       // Lastly, save the line style to be applied later
@@ -339,12 +339,12 @@ class Editor {
   }
 
   /**
-   * Attempts to parse a link or image at the current position. This assumes that the opening [ or ![ has already been matched. 
+   * Attempts to parse a link or image at the current position. This assumes that the opening [ or ![ has already been matched.
    * Returns false if this is not a valid link, image. See below for more information
    * @param {string} originalString The original string, starting at the opening marker ([ or ![)
    * @param {boolean} isImage Whether or not this is an image (opener == ![)
-   * @returns false if not a valid link / image. 
-   * Otherwise returns an object with two properties: output is the string to be included in the processed output, 
+   * @returns false if not a valid link / image.
+   * Otherwise returns an object with two properties: output is the string to be included in the processed output,
    * charCount is the number of input characters (from originalString) consumed.
    */
   parseLinkOrImage(originalString, isImage) {
@@ -353,27 +353,27 @@ class Editor {
     let opener = originalString.substr(0, textOffset);
     let type = isImage ? 'TMImage' : 'TMLink';
     let currentOffset = textOffset;
-    
+
     let bracketLevel = 1;
     let linkText = false;
     let linkRef = false;
     let linkLabel = [];
     let linkDetails = []; // If matched, this will be an array: [whitespace + link destination delimiter, link destination, link destination delimiter, whitespace, link title delimiter, link title, link title delimiter + whitespace]. All can be empty strings.
 
-  
+
     textOuter: while (currentOffset < originalString.length && linkText === false /* empty string is okay */) {
       let string = originalString.substr(currentOffset);
-  
+
       // Capture any escapes and code blocks at current position, they bind more strongly than links
       // We don't have to actually process them here, that'll be done later in case the link / image is valid, but we need to skip over them.
       for (let rule of ['escape', 'code', 'autolink', 'html']) {
         let cap = inlineGrammar[rule].regexp.exec(string);
         if (cap) {
           currentOffset += cap[0].length;
-          continue textOuter; 
+          continue textOuter;
         }
       }
-  
+
       // Check for image. It's okay for an image to be included in a link or image
       if (string.match(inlineGrammar.imageOpen.regexp)) {
         // Opening image. It's okay if this is a matching pair of brackets
@@ -381,7 +381,7 @@ class Editor {
         currentOffset += 2;
         continue textOuter;
       }
-  
+
       // Check for link (not an image because that would have been captured and skipped over above)
       if (string.match(inlineGrammar.linkOpen.regexp)) {
         // Opening bracket. Two things to do:
@@ -398,7 +398,7 @@ class Editor {
         currentOffset += 1;
         continue textOuter;
       }
-  
+
       // Check for closing bracket
       if (string.match(/^\]/)) {
         bracketLevel--;
@@ -409,16 +409,16 @@ class Editor {
           continue textOuter;
         }
       }
-  
+
       // Nothing matches, proceed to next char
       currentOffset++;
     }
-  
+
     // Did we find a link text (i.e., find a matching closing bracket?)
     if (linkText === false) return false; // Nope
-  
+
     // So far, so good. We've got a valid link text. Let's see what type of link this is
-    let nextChar = currentOffset < originalString.length ? originalString.substr(currentOffset, 1) : ''; 
+    let nextChar = currentOffset < originalString.length ? originalString.substr(currentOffset, 1) : '';
 
     // REFERENCE LINKS
     if (nextChar == '[') {
@@ -438,15 +438,15 @@ class Editor {
       } else {
         // Not a valid link label
         return false;
-      }   
+      }
     } else if (nextChar != '(') {
-      
+
       // Shortcut ref link
       linkRef = linkText.trim();
 
-    // INLINE LINKS
+      // INLINE LINKS
     } else { // nextChar == '('
-      
+
       // Potential inline link
       currentOffset++;
 
@@ -513,7 +513,7 @@ class Editor {
           continue inlineOuter;
         }
 
-        // Process  non-parenthesis delimiter for title. 
+        // Process  non-parenthesis delimiter for title.
         cap = /^["']/.exec(string)
         // For this to be a valid opener, we have to either have no destination, only whitespace so far,
         // or a destination with trailing whitespace.
@@ -539,16 +539,16 @@ class Editor {
             case 0: linkDetails.push(''); // this opens the link destination, add empty opening delimiter and proceed to next case
             case 1: linkDetails.push(''); // This opens the link destination
             case 2: // Part of the link destination
-              linkDetails[1] = linkDetails[1].concat('('); 
-              if (!linkDetails[0].match(/<$/)) parenthesisLevel++;  
-              break; 
+              linkDetails[1] = linkDetails[1].concat('(');
+              if (!linkDetails[0].match(/<$/)) parenthesisLevel++;
+              break;
             case 3: linkDetails.push('');  //  opening delimiter for link title
             case 4: linkDetails.push('('); break;// opening delimiter for link title
-            case 5: linkDetails.push(''); // opens the link title, add empty title content and proceed to next case 
+            case 5: linkDetails.push(''); // opens the link title, add empty title content and proceed to next case
             case 6:// Part of the link title. Un-escaped parenthesis only allowed in " or ' delimited title
               if (linkDetails[4] == '(') return false;
-              linkDetails[5] = linkDetails[5].concat('('); 
-              break; 
+              linkDetails[5] = linkDetails[5].concat('(');
+              break;
             default: return false; // After link title was closed, without closing parenthesis
           }
           currentOffset++;
@@ -566,9 +566,9 @@ class Editor {
             if (parenthesisLevel > 0) {
               linkDetails[1] = linkDetails[1].concat(')');
             }
-            
+
           } else if (linkDetails.length == 5 || linkDetails.length == 6) {
-            // We are inside the link title. 
+            // We are inside the link title.
             if (linkDetails[4] == '(') {
               // This closes the link title
               if (linkDetails.length == 5) linkDetails.push('');
@@ -585,7 +585,7 @@ class Editor {
           if (parenthesisLevel == 0) {
             // No invalid condition, let's make sure the linkDetails array is complete
             while (linkDetails.length < 7) linkDetails.push('');
-          } 
+          }
 
           currentOffset++;
           continue inlineOuter;
@@ -653,7 +653,7 @@ class Editor {
 
     return false;
   }
-  
+
   /**
    * Formats a markdown string as HTML, using Markdown inline formatting.
    * @param {string} originalString The input (markdown inline formatted) string
@@ -664,8 +664,8 @@ class Editor {
     let stack = []; // Stack is an array of objects of the format: {delimiter, delimString, count, output}
     let offset = 0;
     let string = originalString;
-  
-  
+
+
     outer: while (string) {
       // Process simple rules (non-delimiter)
       for (let rule of ['escape', 'code', 'autolink', 'html']) {
@@ -676,10 +676,10 @@ class Editor {
           processed += inlineGrammar[rule].replacement
             // .replace(/\$\$([1-9])/g, (str, p1) => processInlineStyles(cap[p1])) // todo recursive calling
             .replace(/\$([1-9])/g, (str, p1) => htmlescape(cap[p1]));
-          continue outer; 
+          continue outer;
         }
       }
-  
+
       // Check for links / images
       let potentialLink = string.match(inlineGrammar.linkOpen.regexp);
       let potentialImage = string.match(inlineGrammar.imageOpen.regexp);
@@ -692,36 +692,36 @@ class Editor {
           continue outer;
         }
       }
-      
+
       // Check for em / strong delimiters
       let cap = /(^\*+)|(^_+)/.exec(string);
       if (cap) {
         let delimCount = cap[0].length;
         const delimString = cap[0];
         const currentDelimiter = cap[0][0]; // This should be * or _
-  
+
         string = string.substr(cap[0].length);
-      
+
         // We have a delimiter run. Let's check if it can open or close an emphasis.
-        
+
         const preceding = (offset > 0) ? originalString.substr(0, offset) : ' '; // beginning and end of line count as whitespace
         const following = (offset + cap[0].length < originalString.length) ? string : ' ';
-  
+
         const punctuationFollows = following.match(punctuationLeading);
         const punctuationPrecedes = preceding.match(punctuationTrailing);
         const whitespaceFollows = following.match(/^\s/);
         const whitespacePrecedes = preceding.match(/\s$/);
-  
+
         // These are the rules for right-flanking and left-flanking delimiter runs as per CommonMark spec
         let canOpen = !whitespaceFollows && (!punctuationFollows || !!whitespacePrecedes || !!punctuationPrecedes);
         let canClose = !whitespacePrecedes && (!punctuationPrecedes || !!whitespaceFollows || !!punctuationFollows);
-  
+
         // Underscores have more detailed rules than just being part of left- or right-flanking run:
         if (currentDelimiter == '_' && canOpen && canClose) {
           canOpen = punctuationPrecedes;
           canClose = punctuationFollows;
         }
-  
+
         // If the delimiter can close, check the stack if there's something it can close
         if (canClose) {
           let stackPointer = stack.length - 1;
@@ -729,13 +729,13 @@ class Editor {
           while (delimCount && stackPointer >= 0) {
             if (stack[stackPointer].delimiter == currentDelimiter) {
               // We found a matching delimiter, let's construct the formatted string
-  
+
               // Firstly, if we skipped any stack levels, pop them immediately (non-matching delimiters)
               while (stackPointer < stack.length - 1) {
                 const entry = stack.pop();
                 processed = `${entry.output}${entry.delimString.substr(0, entry.count)}${processed}`;
               }
-  
+
               // Then, format the string
               if (delimCount >= 2 && stack[stackPointer].count >= 2) {
                 // Strong
@@ -748,14 +748,14 @@ class Editor {
                 delimCount -= 1;
                 stack[stackPointer].count -= 1;
               }
-  
+
               // If that stack level is empty now, pop it
               if (stack[stackPointer].count == 0) {
                 let entry = stack.pop();
                 processed = `${entry.output}${processed}`
                 stackPointer--;
               }
-  
+
             } else {
               // This stack level's delimiter type doesn't match the current delimiter type
               // Go down one level in the stack
@@ -774,12 +774,12 @@ class Editor {
           processed = ''; // Current formatted output has been pushed on the stack and will be prepended when the stack gets popped
           delimCount = 0;
         }
-  
+
         // Any delimiters that are left (closing unmatched) are appended to the output.
         if (delimCount) {
           processed = `${processed}${delimString.substr(0,delimCount)}`;
         }
-  
+
         offset += cap[0].length;
         continue outer;
       }
@@ -811,7 +811,7 @@ class Editor {
             stackPointer--;
           }
         }
-        
+
         // If there are still delimiters left, and the delimiter run can open, push it on the stack
         if (!consumed) {
           stack.push({
@@ -824,11 +824,11 @@ class Editor {
         }
 
         offset += cap[0].length;
-        string = string.substr(cap[0].length); 
+        string = string.substr(cap[0].length);
         continue outer;
       }
-      
-  
+
+
       // Process 'default' rule
       cap = inlineGrammar.default.regexp.exec(string);
       if (cap) {
@@ -836,21 +836,21 @@ class Editor {
         offset += cap[0].length;
         processed += inlineGrammar.default.replacement
           .replace(/\$([1-9])/g, (str, p1) => htmlescape(cap[p1]));
-        continue outer; 
+        continue outer;
       }
       throw 'Infinite loop!';
     }
-  
+
     // Empty the stack, any opening delimiters are unused
     while (stack.length) {
       const entry = stack.pop();
       processed = `${entry.output}${entry.delimString.substr(0, entry.count)}${processed}`;
     }
-  
+
     return processed;
   }
 
-  /** 
+  /**
    * Clears the line dirty flag (resets it to an array of false)
    */
   clearDirtyFlag() {
@@ -865,7 +865,7 @@ class Editor {
    * @returns true if contents changed
    */
   updateLineContents() {
-    // this.lineDirty = []; 
+    // this.lineDirty = [];
     // Check if we have changed anything about the number of lines (inserted or deleted a paragraph)
     // < 0 means line(s) removed; > 0 means line(s) added
     let lineDelta = this.e.childElementCount - this.lines.length;
@@ -874,21 +874,21 @@ class Editor {
       // Find lines from the beginning that haven't changed...
       let firstChangedLine = 0;
       while (
-          firstChangedLine <= this.lines.length 
-          && firstChangedLine <= this.lineElements.length
-          && this.lineElements[firstChangedLine] // Check that the line element hasn't been deleted
-          && this.lines[firstChangedLine] == this.lineElements[firstChangedLine].textContent
-      ) {
+        firstChangedLine <= this.lines.length
+        && firstChangedLine <= this.lineElements.length
+        && this.lineElements[firstChangedLine] // Check that the line element hasn't been deleted
+        && this.lines[firstChangedLine] == this.lineElements[firstChangedLine].textContent
+        ) {
         firstChangedLine++;
       }
 
       // End also from the end
       let lastChangedLine = -1;
       while (
-          -lastChangedLine < this.lines.length 
-          && -lastChangedLine < this.lineElements.length
-          && this.lines[this.lines.length + lastChangedLine] == this.lineElements[this.lineElements.length + lastChangedLine].textContent
-      ) {
+        -lastChangedLine < this.lines.length
+        && -lastChangedLine < this.lineElements.length
+        && this.lines[this.lines.length + lastChangedLine] == this.lineElements[this.lineElements.length + lastChangedLine].textContent
+        ) {
         lastChangedLine--;
       }
 
@@ -901,7 +901,7 @@ class Editor {
         linesToAdd.push(this.lineElements[firstChangedLine + l].textContent);
       }
       this.spliceLines(firstChangedLine, linesToDelete, linesToAdd, false);
-      
+
     } else {
       // No lines added or removed
       for (let line = 0; line < this.lineElements.length; line++) {
@@ -910,8 +910,8 @@ class Editor {
         if (this.lines[line] !== ct) {
           // Line changed, update it
           this.lines[line] = ct;
-          this.lineDirty[line] = true; 
-        } 
+          this.lineDirty[line] = true;
+        }
       }
     }
   }
@@ -965,7 +965,7 @@ class Editor {
           // Previous line has no content, remove the continuable type from the previous row
           this.lines[sel.row - 1] = '';
           this.lineDirty[sel.row - 1] = true;
-        }     
+        }
       }
     }
     this.updateFormatting();
@@ -979,7 +979,7 @@ class Editor {
   // processDelete(focus, forward) {
   //   if (!focus) return;
   //   let anchor = this.getSelection(true);
-  //   // Do we have a non-empty selection? 
+  //   // Do we have a non-empty selection?
   //   if (focus.col != anchor.col || focus.row != anchor.row) {
   //     // non-empty. direction doesn't matter.
   //     this.paste('', anchor, focus);
@@ -999,7 +999,7 @@ class Editor {
 
   /**
    * Gets the current position of the selection counted by row and column of the editor Markdown content (as opposed to the position in the DOM).
-   * 
+   *
    * @param {boolean} getAnchor if set to true, gets the selection anchor (start point of the selection), otherwise gets the focus (end point).
    * @return {object} An object representing the selection, with properties col and row.
    */
@@ -1008,12 +1008,12 @@ class Editor {
     let startNode = (getAnchor ? selection.anchorNode : selection.focusNode);
     if (!startNode) return null;
     let offset = startNode.nodeType === Node.TEXT_NODE ? (getAnchor ? selection.anchorOffset : selection.focusOffset) : 0;
-  
+
     if (startNode == this.e) {
       return {row: 0, col: offset};
     }
 
-    let col = this.computeColumn(startNode, offset);    
+    let col = this.computeColumn(startNode, offset);
     if (col === null) return null; // We are outside of the editor
 
     // Find the row node
@@ -1050,7 +1050,7 @@ class Editor {
       node = node.parentNode;
     }
     if (node == null) return null;
-    
+
     node = startNode;
     while (node.parentNode != this.e) {
       if (node.previousSibling) {
@@ -1074,7 +1074,7 @@ class Editor {
       // Selection past the end of text, set selection to end of text
       row = this.lineElements.length - 1;
       col = this.lines[row].length;
-    } 
+    }
     if (col > this.lines[row].length) {
       col = this.lines[row].length;
     }
@@ -1100,7 +1100,7 @@ class Editor {
         } else {
           col -= node.nodeValue.length;
         }
-      } 
+      }
       if (!childrenComplete && node.firstChild) {
         node = node.firstChild;
       } else if (node.nextSibling) {
@@ -1138,14 +1138,14 @@ class Editor {
     if (anchorNode) range.setStart(anchorNode, anchorOffset);
     else range.setStart(focusNode, focusOffset);
     range.setEnd(focusNode, focusOffset);
-    
+
     let windowSelection = window.getSelection();
     windowSelection.removeAllRanges();
     windowSelection.addRange(range);
   }
 
-  /** 
-   * Event handler for input events 
+  /**
+   * Event handler for input events
    */
   handleInputEvent(event) {
     let focus = this.getSelection();
@@ -1168,7 +1168,7 @@ class Editor {
           }
         }
       }
-      this.updateLineContentsAndFormatting();  
+      this.updateLineContentsAndFormatting();
     }
     if (focus) this.setSelection(focus);
     this.fireChange();
@@ -1182,11 +1182,11 @@ class Editor {
   }
 
   /**
-   * Convenience function to "splice" new lines into the arrays this.lines, this.lineDirty, this.lineTypes, and the DOM elements 
+   * Convenience function to "splice" new lines into the arrays this.lines, this.lineDirty, this.lineTypes, and the DOM elements
    * underneath the editor element.
    * This method is essentially Array.splice, only that the third parameter takes an un-spread array (and the forth parameter)
    * determines whether the DOM should also be adjusted.
-   * 
+   *
    * @param {int} startLine Position at which to start changing the array of lines
    * @param {int} linesToDelete Number of lines to delete
    * @param {array} linesToInsert Array of strings representing the lines to be inserted
@@ -1198,7 +1198,7 @@ class Editor {
         this.e.removeChild(this.e.childNodes[startLine]);
       }
     }
-    
+
     let insertedBlank = [];
     let insertedDirty = [];
 
@@ -1221,7 +1221,7 @@ class Editor {
    */
   handlePaste(event) {
     event.preventDefault();
-  
+
     // get text representation of clipboard
     let text = (event.originalEvent || event).clipboardData.getData('text/plain');
 
@@ -1231,7 +1231,7 @@ class Editor {
 
   /**
    * Pastes the text at the current selection (or at the end, if no current selection)
-   * @param {string} text 
+   * @param {string} text
    */
   paste(text, anchor = null, focus = null) {
     if (!anchor) anchor = this.getSelection(true);
@@ -1332,8 +1332,8 @@ class Editor {
       }
       return commandState;
     }
-    if (!anchor) anchor = focus; 
-    
+    if (!anchor) anchor = focus;
+
     let start, end;
     if (anchor.row < focus.row || (anchor.row == focus.row && anchor.col < focus.col)) {
       start = anchor;
@@ -1353,23 +1353,23 @@ class Editor {
         if (!focus || focus.row != anchor.row || !this.isInlineFormattingAllowed(focus, anchor)) {
           commandState[cmd] = null;
         } else {
-          // The command state is true if there is a respective enclosing markup node (e.g., the selection is enclosed in a <b>..</b>) ... 
-          commandState[cmd] = 
+          // The command state is true if there is a respective enclosing markup node (e.g., the selection is enclosed in a <b>..</b>) ...
+          commandState[cmd] =
             !!this.computeEnclosingMarkupNode(focus, anchor, commands[cmd].className) ||
-          // ... or if it's an empty string preceded by and followed by formatting markers, e.g. **|** where | is the cursor
+            // ... or if it's an empty string preceded by and followed by formatting markers, e.g. **|** where | is the cursor
             (
-              focus.col == anchor.col 
+              focus.col == anchor.col
               && !!this.lines[focus.row].substr(0, focus.col).match(commands[cmd].unset.prePattern)
               && !!this.lines[focus.row].substr(focus.col).match(commands[cmd].unset.postPattern)
             );
         }
-      } 
+      }
       if (commands[cmd].type == 'line') {
         if (!focus) {
           commandState[cmd] = null;
         } else {
           let state = this.lineTypes[start.row] == commands[cmd].className;
-          
+
           for (let line = start.row; line <= end.row; line ++) {
             if ((this.lineTypes[line] == commands[cmd].className) != state) {
               state = null;
@@ -1378,7 +1378,7 @@ class Editor {
           }
           commandState[cmd] = state;
         }
-        
+
       }
     }
     return commandState;
@@ -1386,8 +1386,8 @@ class Editor {
 
   /**
    * Sets a command state
-   * @param {string} command 
-   * @param {boolean} state 
+   * @param {string} command
+   * @param {boolean} state
    */
   setCommandState(command, state) {
     if (commands[command].type == 'inline') {
@@ -1396,10 +1396,10 @@ class Editor {
       if (!anchor) anchor = focus;
       if (!anchor) return;
       if (anchor.row != focus.row) return;
-      if (!this.isInlineFormattingAllowed(focus, anchor)) return; 
+      if (!this.isInlineFormattingAllowed(focus, anchor)) return;
       let markupNode = this.computeEnclosingMarkupNode(focus, anchor, commands[command].className);
       this.clearDirtyFlag();
-      
+
       // First case: There's an enclosing markup node, remove the markers around that markup node
       if (markupNode) {
         this.lineDirty[focus.row] = true;
@@ -1412,12 +1412,12 @@ class Editor {
         anchor.col = left.length;
         focus.col = anchor.col + len;
         this.updateFormatting();
-        this.setSelection(focus, anchor);  
+        this.setSelection(focus, anchor);
         this.fireChange();
 
-      // Second case: Empty selection with surrounding formatting markers, remove those
+        // Second case: Empty selection with surrounding formatting markers, remove those
       } else if (
-        focus.col == anchor.col 
+        focus.col == anchor.col
         && !!this.lines[focus.row].substr(0, focus.col).match(commands[command].unset.prePattern)
         && !!this.lines[focus.row].substr(focus.col).match(commands[command].unset.postPattern)
       ) {
@@ -1430,9 +1430,9 @@ class Editor {
         this.setSelection(focus, anchor);
         this.fireChange();
 
-      // Not currently formatted, insert formatting markers
+        // Not currently formatted, insert formatting markers
       } else {
-        
+
         // Trim any spaces from the selection
         let {startCol, endCol} = focus.col < anchor.col ? {startCol: focus.col, endCol: anchor.col} : {startCol: anchor.col, endCol: focus.col};
 
@@ -1445,7 +1445,7 @@ class Editor {
         focus.col = startCol;
         anchor.col = endCol;
 
-        // Just insert markup before and after and hope for the best. 
+        // Just insert markup before and after and hope for the best.
         this.wrapSelection(commands[command].set.pre, commands[command].set.post, focus, anchor);
         this.fireChange();
         // TODO clean this up so that markup remains properly nested
@@ -1480,7 +1480,7 @@ class Editor {
   }
 
   /**
-   * Returns whether or not inline formatting is allowed at the current focus 
+   * Returns whether or not inline formatting is allowed at the current focus
    * @param {object} focus The current focus
    */
   isInlineFormattingAllowed() {
@@ -1488,7 +1488,7 @@ class Editor {
     const sel = window.getSelection();
     if (!sel || !sel.focusNode || !sel.anchorNode) return false;
 
-    // Check if we can find a common ancestor with the class `TMInlineFormatted` 
+    // Check if we can find a common ancestor with the class `TMInlineFormatted`
 
     // Special case: Empty selection right before `TMInlineFormatted`
     if (sel.isCollapsed && sel.focusNode.nodeType == 3 && sel.focusOffset == sel.focusNode.nodeValue.length) {
@@ -1526,7 +1526,7 @@ class Editor {
     const startCol = focus.col < anchor.col ? focus.col : anchor.col;
     const endCol = focus.col < anchor.col ? anchor.col : focus.col;
     const left = this.lines[focus.row].substr(0, startCol).concat(pre);
-    const mid = (endCol == startCol ? '' : this.lines[focus.row].substr(startCol, endCol - startCol)); 
+    const mid = (endCol == startCol ? '' : this.lines[focus.row].substr(startCol, endCol - startCol));
     const right = post.concat(this.lines[focus.row].substr(endCol));
     this.lines[focus.row] = left.concat(mid, right);
     anchor.col = left.length;
