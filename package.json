@@ -1,6 +1,6 @@
 {
   "name": "@taigacrm/tiny-markdown-editor",
-  "version": "0.1.14",
+  "version": "0.1.13",
   "description": "TinyMDE: A tiny, ultra low dependency, embeddable HTML/JavaScript Markdown editor.",
   "main": "lib/index.js",
   "files": [
@@ -31,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/jefago/tiny-markdown-editor/issues"
   },
-  "type": "module",
+  "type": "commonjs",
   "homepage": "https://github.com/jefago/tiny-markdown-editor#readme",
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
