@@ -1008,14 +1008,14 @@
     KnownTag: /address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h1|h2|h3|h4|h5|h6|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|nav|noframes|ol|optgroup|option|p|param|section|source|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul/
   };
 
-  // From CommonMark.js. 
+  // From CommonMark.js.
   const punctuationLeading = new RegExp(/^(?:[!"#$%&'()*+,\-./:;<=>?@[\]\\^_`{|}~\xA1\xA7\xAB\xB6\xB7\xBB\xBF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2308-\u230B\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E42\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA8FC\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]|\uD800[\uDD00-\uDD02\uDF9F\uDFD0]|\uD801\uDD6F|\uD802[\uDC57\uDD1F\uDD3F\uDE50-\uDE58\uDE7F\uDEF0-\uDEF6\uDF39-\uDF3F\uDF99-\uDF9C]|\uD804[\uDC47-\uDC4D\uDCBB\uDCBC\uDCBE-\uDCC1\uDD40-\uDD43\uDD74\uDD75\uDDC5-\uDDC9\uDDCD\uDDDB\uDDDD-\uDDDF\uDE38-\uDE3D\uDEA9]|\uD805[\uDCC6\uDDC1-\uDDD7\uDE41-\uDE43\uDF3C-\uDF3E]|\uD809[\uDC70-\uDC74]|\uD81A[\uDE6E\uDE6F\uDEF5\uDF37-\uDF3B\uDF44]|\uD82F\uDC9F|\uD836[\uDE87-\uDE8B])/);
   const punctuationTrailing = new RegExp(/(?:[!"#$%&'()*+,\-./:;<=>?@[\]\\^_`{|}~\xA1\xA7\xAB\xB6\xB7\xBB\xBF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2308-\u230B\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E42\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA8FC\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]|\uD800[\uDD00-\uDD02\uDF9F\uDFD0]|\uD801\uDD6F|\uD802[\uDC57\uDD1F\uDD3F\uDE50-\uDE58\uDE7F\uDEF0-\uDEF6\uDF39-\uDF3F\uDF99-\uDF9C]|\uD804[\uDC47-\uDC4D\uDCBB\uDCBC\uDCBE-\uDCC1\uDD40-\uDD43\uDD74\uDD75\uDDC5-\uDDC9\uDDCD\uDDDB\uDDDD-\uDDDF\uDE38-\uDE3D\uDEA9]|\uD805[\uDCC6\uDDC1-\uDDD7\uDE41-\uDE43\uDF3C-\uDF3E]|\uD809[\uDC70-\uDC74]|\uD81A[\uDE6E\uDE6F\uDEF5\uDF37-\uDF3B\uDF44]|\uD82F\uDC9F|\uD836[\uDE87-\uDE8B])$/);
 
   // export const inlineTriggerChars = new RegExp(`[${replacements.TriggerChars}]`);
 
   /**
-   * This is CommonMark's block grammar, but we're ignoring nested blocks here.  
+   * This is CommonMark's block grammar, but we're ignoring nested blocks here.
    */
   const lineGrammar = {
     TMH1: {
@@ -1092,7 +1092,7 @@
       replacement: '<span class="TMMark TMMark_TMIndentedCode">$1</span>$2'
     },
     TMLinkReferenceDefinition: {
-      // TODO: Link destination can't include unbalanced parantheses, but we just ignore that here 
+      // TODO: Link destination can't include unbalanced parantheses, but we just ignore that here
       regexp: /^( {0,3}\[\s*)([^\s\]](?:[^\]]|\\\])*?)(\s*\]:\s*)((?:[^\s<>]+)|(?:<(?:[^<>\\]|\\.)*>))?(\s*)((?:\((?:[^()\\]|\\.)*\))|(?:"(?:[^"\\]|\\.)*")|(?:'(?:[^'\\]|\\.)*'))?(\s*)$/,
       replacement: '<span class="TMMark TMMark_TMLinkReferenceDefinition">$1</span><span class="TMLinkLabel TMLinkLabel_Definition">$2</span><span class="TMMark TMMark_TMLinkReferenceDefinition">$3</span><span class="TMLinkDestination">$4</span>$5<span class="TMLinkTitle">$6</span>$7',
       labelPlaceholder: 2 // this defines which placeholder in the above regex is the link "label"
@@ -1212,13 +1212,13 @@
   /**
    * Contains the commands that can be sent to the editor. Contains objects with a name representing the name of the command.
    * Each of the objects contains the following keys:
-   * 
+   *
    *   - type: Can be either inline (for inline formatting) or line (for block / line formatting).
-   *   - className: Used to determine whether the command is active at a given position. 
+   *   - className: Used to determine whether the command is active at a given position.
    *     For line formatting, this looks at the class of the line element. For inline elements, tries to find an enclosing element with that class.
-   *   - set / unset: Contain instructions how to set and unset the command. For line type commands, both consist of a pattern and replacement that 
+   *   - set / unset: Contain instructions how to set and unset the command. For line type commands, both consist of a pattern and replacement that
    *     will be applied to each line (using String.replace). For inline type commands, the set object contains a pre and post string which will
-   *     be inserted before and after the selection. The unset object contains a prePattern and a postPattern. Both should be regular expressions and 
+   *     be inserted before and after the selection. The unset object contains a prePattern and a postPattern. Both should be regular expressions and
    *     they will be applied to the portion of the line before and after the selection (using String.replace, with an empty replacement string).
    */
   const commands = {
@@ -1239,12 +1239,12 @@
       type: 'inline',
       className: 'TMEm',
       set: {
-        pre: '*',
-        post: '*'
+        pre: '__',
+        post: '__'
       },
       unset: {
-        prePattern: /(?:\*|_)$/,
-        postPattern: /^(?:\*|_)/
+        prePattern: /__$/,
+        postPattern: /^__/
       }
     },
     code: {
@@ -1505,10 +1505,10 @@
 
     /**
      * Helper function to replace placeholders from a RegExp capture. The replacement string can contain regular dollar placeholders (e.g., $1),
-     * which are interpreted like in String.replace(), but also double dollar placeholders ($$1). In the case of double dollar placeholders, 
+     * which are interpreted like in String.replace(), but also double dollar placeholders ($$1). In the case of double dollar placeholders,
      * Markdown inline grammar is applied on the content of the captured subgroup, i.e., $$1 processes inline Markdown grammar in the content of the
      * first captured subgroup, and replaces `$$1` with the result.
-     * 
+     *
      * @param {string} replacement The replacement string, including placeholders.
      * @param  capture The result of a RegExp.exec() call
      * @returns The replacement string, with placeholders replaced from the capture result.
@@ -1520,7 +1520,7 @@
     }
 
     /**
-     * Applies the line types (from this.lineTypes as well as the capture result in this.lineReplacements and this.lineCaptures) 
+     * Applies the line types (from this.lineTypes as well as the capture result in this.lineReplacements and this.lineCaptures)
      * and processes inline formatting for all lines.
      */
     applyLineTypes() {
@@ -1704,12 +1704,12 @@
     }
 
     /**
-     * Attempts to parse a link or image at the current position. This assumes that the opening [ or ![ has already been matched. 
+     * Attempts to parse a link or image at the current position. This assumes that the opening [ or ![ has already been matched.
      * Returns false if this is not a valid link, image. See below for more information
      * @param {string} originalString The original string, starting at the opening marker ([ or ![)
      * @param {boolean} isImage Whether or not this is an image (opener == ![)
-     * @returns false if not a valid link / image. 
-     * Otherwise returns an object with two properties: output is the string to be included in the processed output, 
+     * @returns false if not a valid link / image.
+     * Otherwise returns an object with two properties: output is the string to be included in the processed output,
      * charCount is the number of input characters (from originalString) consumed.
      */
     parseLinkOrImage(originalString, isImage) {
@@ -1919,7 +1919,7 @@
             continue inlineOuter;
           }
 
-          // Process  non-parenthesis delimiter for title. 
+          // Process  non-parenthesis delimiter for title.
           cap = /^["']/.exec(string);
           // For this to be a valid opener, we have to either have no destination, only whitespace so far,
           // or a destination with trailing whitespace.
@@ -1962,7 +1962,7 @@
               // opening delimiter for link title
               case 5:
                 linkDetails.push('');
-              // opens the link title, add empty title content and proceed to next case 
+              // opens the link title, add empty title content and proceed to next case
               case 6:
                 // Part of the link title. Un-escaped parenthesis only allowed in " or ' delimited title
                 if (linkDetails[4] == '(') return false;
@@ -1987,7 +1987,7 @@
                 linkDetails[1] = linkDetails[1].concat(')');
               }
             } else if (linkDetails.length == 5 || linkDetails.length == 6) {
-              // We are inside the link title. 
+              // We are inside the link title.
               if (linkDetails[4] == '(') {
                 // This closes the link title
                 if (linkDetails.length == 5) linkDetails.push('');
@@ -2271,7 +2271,7 @@
       return processed;
     }
 
-    /** 
+    /**
      * Clears the line dirty flag (resets it to an array of false)
      */
     clearDirtyFlag() {
@@ -2286,7 +2286,7 @@
      * @returns true if contents changed
      */
     updateLineContents() {
-      // this.lineDirty = []; 
+      // this.lineDirty = [];
       // Check if we have changed anything about the number of lines (inserted or deleted a paragraph)
       // < 0 means line(s) removed; > 0 means line(s) added
       let lineDelta = this.e.childElementCount - this.lines.length;
@@ -2394,7 +2394,7 @@
     // processDelete(focus, forward) {
     //   if (!focus) return;
     //   let anchor = this.getSelection(true);
-    //   // Do we have a non-empty selection? 
+    //   // Do we have a non-empty selection?
     //   if (focus.col != anchor.col || focus.row != anchor.row) {
     //     // non-empty. direction doesn't matter.
     //     this.paste('', anchor, focus);
@@ -2414,7 +2414,7 @@
 
     /**
      * Gets the current position of the selection counted by row and column of the editor Markdown content (as opposed to the position in the DOM).
-     * 
+     *
      * @param {boolean} getAnchor if set to true, gets the selection anchor (start point of the selection), otherwise gets the focus (end point).
      * @return {object} An object representing the selection, with properties col and row.
      */
@@ -2573,8 +2573,8 @@
       windowSelection.addRange(range);
     }
 
-    /** 
-     * Event handler for input events 
+    /**
+     * Event handler for input events
      */
     handleInputEvent(event) {
       let focus = this.getSelection();
@@ -2609,11 +2609,11 @@
     }
 
     /**
-     * Convenience function to "splice" new lines into the arrays this.lines, this.lineDirty, this.lineTypes, and the DOM elements 
+     * Convenience function to "splice" new lines into the arrays this.lines, this.lineDirty, this.lineTypes, and the DOM elements
      * underneath the editor element.
      * This method is essentially Array.splice, only that the third parameter takes an un-spread array (and the forth parameter)
      * determines whether the DOM should also be adjusted.
-     * 
+     *
      * @param {int} startLine Position at which to start changing the array of lines
      * @param {int} linesToDelete Number of lines to delete
      * @param {array} linesToInsert Array of strings representing the lines to be inserted
@@ -2657,7 +2657,7 @@
 
     /**
      * Pastes the text at the current selection (or at the end, if no current selection)
-     * @param {string} text 
+     * @param {string} text
      */
     paste(text) {
       let anchor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -2782,7 +2782,7 @@
           if (!focus || focus.row != anchor.row || !this.isInlineFormattingAllowed(focus, anchor)) {
             commandState[cmd] = null;
           } else {
-            // The command state is true if there is a respective enclosing markup node (e.g., the selection is enclosed in a <b>..</b>) ... 
+            // The command state is true if there is a respective enclosing markup node (e.g., the selection is enclosed in a <b>..</b>) ...
             commandState[cmd] = !!this.computeEnclosingMarkupNode(focus, anchor, commands[cmd].className) ||
             // ... or if it's an empty string preceded by and followed by formatting markers, e.g. **|** where | is the cursor
 
@@ -2809,8 +2809,8 @@
 
     /**
      * Sets a command state
-     * @param {string} command 
-     * @param {boolean} state 
+     * @param {string} command
+     * @param {boolean} state
      */
     setCommandState(command, state) {
       if (commands[command].type == 'inline') {
@@ -2870,7 +2870,7 @@
           focus.col = startCol;
           anchor.col = endCol;
 
-          // Just insert markup before and after and hope for the best. 
+          // Just insert markup before and after and hope for the best.
           this.wrapSelection(commands[command].set.pre, commands[command].set.post, focus, anchor);
           this.fireChange();
           // TODO clean this up so that markup remains properly nested
@@ -2909,7 +2909,7 @@
     }
 
     /**
-     * Returns whether or not inline formatting is allowed at the current focus 
+     * Returns whether or not inline formatting is allowed at the current focus
      * @param {object} focus The current focus
      */
     isInlineFormattingAllowed() {
@@ -2917,7 +2917,7 @@
       const sel = window.getSelection();
       if (!sel || !sel.focusNode || !sel.anchorNode) return false;
 
-      // Check if we can find a common ancestor with the class `TMInlineFormatted` 
+      // Check if we can find a common ancestor with the class `TMInlineFormatted`
 
       // Special case: Empty selection right before `TMInlineFormatted`
       if (sel.isCollapsed && sel.focusNode.nodeType == 3 && sel.focusOffset == sel.focusNode.nodeValue.length) {
