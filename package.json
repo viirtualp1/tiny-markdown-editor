@@ -3,6 +3,7 @@
   "version": "0.1.12",
   "description": "TinyMDE: A tiny, ultra low dependency, embeddable HTML/JavaScript Markdown editor.",
   "main": "lib/index.js",
+  "module": "dist/tiny-mde.js",
   "files": [
     "dist/*",
     "lib/*",
